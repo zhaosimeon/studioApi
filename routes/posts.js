@@ -4,6 +4,7 @@ const Post = require('../models/Post');
 
 router.get('/', async (req, res) => {
   try {
+    console.log('your reached /posts');
     const posts = await Post.find();
     console.log(posts);
     res.status(200).json(posts);
