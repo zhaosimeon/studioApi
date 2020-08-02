@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const { MongoClient } = require('mongodb');
+var url = process.env.MDB_CONNECTION;
 
 router.get('/', async (req, res) => {
   try {
@@ -12,6 +14,22 @@ router.get('/', async (req, res) => {
     console.log(err);
     res.status(500).json({ message: err });
   }
+});
+
+router.get('/mdb', async (req, res) => {
+  console.log('you reached /posts/goose');
+  const client = new MongoClient(url,{ useNewUrlParser: true, useUnifiedTopology: true });
+  await client.connect();
+  const database = client.db("PeopleDB");
+  const collection = database.collection("posts");
+  const query = {"author": "alice" };
+  const options = {
+    // sort returned documents in ascending order by title (A->Z)
+    sort: { author: 1 }
+  };
+  const post = await collection.findOne(query, options);
+  
+  res.json(post);
 });
 
 router.get('/:postid', async (req, res) => {
@@ -36,5 +54,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+
+
 
 module.exports = router;
