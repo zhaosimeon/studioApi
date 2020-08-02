@@ -5,7 +5,7 @@ const Post = require('../models/Post');
 router.get('/', async (req, res) => {
   try {
     console.log('your reached /posts');
-    const posts = await Post.find();
+    const posts = await Post.find().maxTimeMS(30000);//timeout 30 senconds
     console.log(posts);
     res.status(200).json(posts);
   } catch (err) {
