@@ -16,7 +16,8 @@ const postsRoute = require('./routes/posts');
 app.use('/posts', postsRoute);
 
 //routes
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
+    console.log('send index file');
     res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
 });
 //connect to db
