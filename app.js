@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require('morgan');
 const app = express();
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'ReactClient')));
 var cors = require('cors');
 app.use(cors());
 const mongoose = require('mongoose')
@@ -13,12 +15,14 @@ const postsRoute = require('./routes/posts');
 //middleware
 app.use('/posts', postsRoute);
 
-
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
+  });
 //routes
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
     res.send("We are at home");
 });
-
+ */
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION, 
     { useNewUrlParser: true, useUnifiedTopology: true }, ()=> console.log('connected to DB'));
