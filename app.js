@@ -15,9 +15,6 @@ const postsRoute = require('./routes/posts');
 //middleware
 app.use('/posts', postsRoute);
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
-  });
 //routes
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
