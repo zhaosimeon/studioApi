@@ -4,7 +4,8 @@
   "description": "node express server using mongodb",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -28,5 +29,10 @@
     "mongoose": "^5.9.26",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.0",
+    "request": "^2.88.2"
   }
 }

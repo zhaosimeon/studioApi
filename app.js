@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require('morgan');
 const app = express();
 const path = require('path');
+
 app.use(express.static(path.join(__dirname, 'ReactClient')));
 var cors = require('cors');
 app.use(cors());
@@ -15,22 +16,19 @@ const postsRoute = require('./routes/posts');
 //middleware
 app.use('/posts', postsRoute);
 
+app.get('/tests', (req, res) => {
+    res.statusCode(200).send('you are on tests');
+});
 //routes
 app.get('/', (req, res) => {
     console.log('send index file');
     res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
 });
+
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION,
     { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to DB'));
-/* const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-    const collection = client.db("PeopleDB").collection("postPerson");
-    console.log('connected to DB');
-    // perform actions on the collection object
-    client.close();
-});
- */
+
 //Listing
-const port = process.env.PORT;
-app.listen(8080, () => console.log("CORS-enabled web server listening on port 8080"));
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`web server listening on port ${port}`));
