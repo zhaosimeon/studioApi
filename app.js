@@ -15,12 +15,13 @@ const postsRoute = require('./routes/posts');
 //middleware
 app.use('/posts', postsRoute);
 
-
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
+  });
 //routes
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'ReactClient', 'index.html'));
 });
-
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION,
     { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to DB'));
