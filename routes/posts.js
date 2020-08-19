@@ -40,8 +40,18 @@ router.get('/mdb', async (req, res) => {
 
 router.get('/:postid', async (req, res) => {
   try {
-    const postid = res.params.postid;
-    const post = await Post.findById(postid);
+    const postid = req.params.postid;
+    const post = await Post.findOne({id: postid});
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.delete('/:postid', async (req, res) => {
+  try {
+    const postid = req.params.postid;
+    const post = await Post.findOneAndDelete({id: postid});
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -54,7 +64,24 @@ router.post('/', async (req, res) => {
     id, author, title, message
   });
   try {
-    const saved = post.save();
+    const saved =await post.save();
+    console.log(saved);
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.put('/:postid', async (req, res) => {
+  const { author, title, message } = req.body;
+  const postid = req.params.postid;
+  const post = await Post.findOne({id: postid});
+  post.author = author;
+  post.title = title;
+  post.message = message;
+  try {
+    const saved = await post.save();
+    console.log(saved);
     res.status(201).json(saved);
   } catch (err) {
     res.status(500).json({ message: err });
